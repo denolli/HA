@@ -1,0 +1,1268 @@
+kiosk_mode:
+  hide_header: true
+title: Thuis
+views:
+  - path: default_view
+    title: Home
+    icon: mdi:home
+    theme: ios-dark-mode
+    subview: false
+    type: custom:horizontal-layout
+    badges: []
+    cards:
+      - type: custom:layout-card
+        layout_type: masonry
+        layout: {}
+        cards:
+          - type: markdown
+            content: |
+              <center>
+
+              {% if now().hour < 12 %}
+              # Goede morgen ☀️
+              {% elif now().hour >= 12 and now().hour < 17 %}
+              # Goede middag 👋
+              {% else %}
+              # Goede avond🌛
+              {% endif %}
+          - square: false
+            type: grid
+            cards:
+              - type: custom:swipe-card
+                cards:
+                  - type: custom:stack-in-card
+                    cards:
+                      - type: custom:button-card
+                        entity: device_tracker.oliver_de_volder
+                        show_entity_picture: true
+                        show_name: true
+                        entity_picture: https://www.publidesign.be/olli2.gif
+                        state:
+                          - value: home
+                            name: Thuis
+                            entity_picture: http://www.publidesign.be/olli2.gif
+                            styles:
+                              card:
+                                - height: 160px
+                              entity_picture:
+                                - margin-bottom: 60px
+                                - width: 80%
+                                - position: relative
+                              name:
+                                - color: '#7DDA9F'
+                                - margin-bottom: '-140px'
+                              styles:
+                                name:
+                                  - font-size: 8px
+                                label:
+                                  - font-size: 6px
+                        tap_action:
+                          action: more-info
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        secondary_info: state
+                        layout: horizontal
+                        primary_info: none
+                        fill_container: true
+                      - type: custom:mushroom-chips-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --chip-font-size: 0.3em;
+                              --chip-icon-size: 0.5em;
+                              --chip-border-width: 0;
+                              --chip-box-shadow: none;
+                              --chip-background: none;
+                              --chip-border: none;
+                              --chip-spacing: none;
+                              --chip-font-weight: bold;
+                            }
+                        chips:
+                          - type: template
+                            entity: sensor.sm_s918b_battery_level
+                            icon: '{{states(''sensor.sm_s918b_battery_icon'')}}'
+                            icon_color: '{{states(''sensor.sm_s918b_battery_color'')}}'
+                            content: '{{states(''sensor.sm_s918b_battery_level'')}}%'
+                            tap_action:
+                              action: more-info
+                          - type: template
+                            entity: sensor.sm_s918b_battery_level
+                            icon: >-
+                              {% if
+                              is_state('binary_sensor.sm_s918b_is_charging','on')%}mdi:power-plug
+                              {% else %} mdi:power-plug-off {% endif
+                              %}                  
+                            icon_color: >-
+                              {% if
+                              is_state('binary_sensor.sm_s918b_is_charging','on')%}blue
+
+                              {% else %} grey
+
+                              {% endif %}
+                            content: ''
+                            tap_action:
+                              action: none
+                          - type: template
+                            entity: sensor.sm_s918b_network_type
+                            icon: >-
+                              {% if
+                              is_state('sensor.sm_s918b_network_type','wifi')%}
+                               mdi:wifi 
+                              {% elif
+                              is_state('sensor.sm_s918b_network_type','cellular')%}
+                               mdi:signal-4g
+                              {% else %} mdi:network-strength-off
+
+                              {% endif %}  
+                            icon_color: >-
+                              {% if
+                              is_state('sensor.sm_s918b_network_type','wifi')%}
+                               green
+                              {% elif
+                              is_state('sensor.sm_s918b_network_type','cellular')%}
+                               red
+                              {% else %} grey
+
+                              {% endif %}   
+                            content: ''
+                            hold_action:
+                              action: none
+                            double_tap_action:
+                              action: none
+                            tap_action:
+                              action: none
+                        alignment: center
+                      - type: custom:mushroom-chips-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --chip-font-size: 0.28em;
+                              --chip-icon-size: 0.4em;
+                              --chip-border-width: 0;
+                              --chip-box-shadow: none;
+                              --chip-background: none;
+                              --chip-border: none;
+                              --chip-font-weight: normal;
+                            }
+                        alignment: justify
+                        chips:
+                          - type: entity
+                            entity: device_tracker.oliver_de_volder
+                            content_info: last-updated
+                            icon: mdi:clock
+                            icon_color: grey
+                            tap_action:
+                              action: more-info
+                          - type: entity
+                            entity: sensor.sm_s918b_proximity
+                            content_info: state
+                            icon: mdi:map-marker-right-outline
+                            icon_color: grey
+                            tap_action:
+                              action: more-info
+                  - type: custom:stack-in-card
+                    mode: vertical
+                    keep:
+                      margin: true
+                      outer-padding: false
+                    cards:
+                      - type: custom:mushroom-template-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --font-size: 0.32em;
+                              --icon-size: 0.52em;
+                              --border-width: 0;
+                              --box-shadow: none;
+                              --background: none;
+                              --border: none;
+                              --spacing: 0.5em;
+                              --font-weight: normal;
+                            }
+                        primary: ''
+                        secondary: 'WiFi: {{states(''sensor.sm_s918b_wifi_connection'')}}'
+                        icon: ''
+                        entity: sensor.sm_s918b_wifi_connection
+                        layout: vertical
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: more-info
+                      - type: custom:mushroom-chips-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --chip-font-size: 0.32em;
+                              --chip-icon-size: 0.52em;
+                              --chip-border-width: 0;
+                              --chip-box-shadow: none;
+                              --chip-background: none;
+                              --chip-border: none;
+                              --chip-spacing: none;
+                              --chip-font-weight: normal;
+                            }
+                        chips:
+                          - type: entity
+                            entity: sensor.sm_s918b_detected_activity
+                            icon_color: teal
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: more-info
+                          - type: entity
+                            entity: automation.a_on_state
+                            icon_color: red
+                            icon: mdi:cellphone-wireless
+                            use_entity_picture: false
+                            content_info: none
+                            tap_action:
+                              action: call-service
+                              service: script.sm_s918b_find_phone
+                              data: {}
+                              target: {}
+                            hold_action:
+                              action: none
+                            double_tap_action:
+                              action: none
+                        alignment: center
+                      - type: custom:mushroom-entity-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --font-size: 0.2em;
+                              --icon-size: 0.5em;
+                              --border-width: 0;
+                              --box-shadow: none;
+                              --background: none;
+                              --border: none;
+                              --spacing: none;
+                              --font-weight: normal;
+                            }
+                        entity: sensor.sm_s918b_geo_1
+                        icon_type: none
+                        primary_info: ''
+                        name: 'Possible Location:'
+                        layout: vertical
+                        fill_container: true
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: more-info
+                      - type: custom:mushroom-entity-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --font-size: 0.2em;
+                              --icon-size: 0.5em;
+                              --border-width: 0;
+                              --box-shadow: none;
+                              --background: none;
+                              --border: none;
+                              --spacing: none;
+                              --font-weight: normal;
+                            }
+                        entity: sensor.sm_s918b_geo_2
+                        icon_type: none
+                        primary_info: ''
+                        name: 'Possible Location:'
+                        layout: vertical
+                        fill_container: true
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: more-info
+                  - type: custom:stack-in-card
+                    mode: vertical
+                    keep:
+                      margin: true
+                      outer-padding: true
+                    cards:
+                      - type: custom:mushroom-template-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --font-size: 0.3em;
+                              --icon-size: 0.5em;
+                              --border-width: 0;
+                              --box-shadow: none;
+                              --background: none;
+                              --border: none;
+                              --spacing: 0.5em;
+                              --font-weight: normal;
+                            }
+                        primary: ''
+                        secondary: 'other info:'
+                        icon: ''
+                        entity: sensor.sm_s918b_wifi_connection
+                        layout: vertical
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: more-info
+                      - type: custom:mushroom-chips-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --chip-font-size: 0.32em;
+                              --chip-icon-size: 0.52em;
+                              --chip-border-width: 0;
+                              --chip-box-shadow: none;
+                              --chip-background: none;
+                              --chip-border: none;
+                              --chip-spacing: none;
+                              --chip-font-weight: normal;
+                            }
+                        chips:
+                          - type: entity
+                            entity: sensor.sm_s918b_public_ip_address
+                            icon_color: teal
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: more-info
+                        alignment: center
+                      - type: custom:mushroom-chips-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --chip-font-size: 0.32em;
+                              --chip-icon-size: 0.52em;
+                              --chip-border-width: 0;
+                              --chip-box-shadow: none;
+                              --chip-background: none;
+                              --chip-border: none;
+                              --chip-spacing: none;
+                              --chip-font-weight: normal;
+                            }
+                        chips:
+                          - type: entity
+                            entity: sensor.sm_s918b_last_reboot
+                            icon_color: teal
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: more-info
+                        alignment: center
+              - type: custom:swipe-card
+                cards:
+                  - type: custom:stack-in-card
+                    cards:
+                      - type: custom:button-card
+                        entity: device_tracker.ann_meulewaeter
+                        show_entity_picture: true
+                        show_name: true
+                        entity_picture: https://www.publidesign.be/ann.gif
+                        state:
+                          - value: home
+                            name: Thuis
+                            entity_picture: http://www.publidesign.be/ann2.gif
+                            styles:
+                              card:
+                                - height: 160px
+                              entity_picture:
+                                - margin-bottom: 60px
+                                - width: 80%
+                                - position: relative
+                              name:
+                                - color: '#7DDA9F'
+                                - margin-bottom: '-120px'
+                          - value: Werk
+                            name: Leonidas
+                            entity_picture: https://www.publidesign.be/ann_werk.gif
+                            styles:
+                              card:
+                                - height: 160px
+                              name:
+                                - color: '#FF0000'
+                                - margin-bottom: '-120px'
+                              entity_picture:
+                                - width: 50%
+                                - position: relative
+                                - margin-bottom: 20px
+                          - value: not_home
+                            name: Onderweg
+                            entity_picture: https://www.publidesign.be/ann.gif
+                            styles:
+                              card:
+                                - height: 160px
+                              name:
+                                - color: '#FFA07A'
+                                - margin-bottom: '-120px'
+                              entity_picture:
+                                - margin-bottom: 20px
+                                - width: 60%
+                                - position: relative
+                              styles:
+                                name:
+                                  - font-size: 8px
+                                label:
+                                  - font-size: 6px
+                        tap_action:
+                          action: more-info
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        secondary_info: state
+                        layout: horizontal
+                        primary_info: none
+                        fill_container: true
+                      - type: custom:mushroom-chips-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --chip-font-size: 0.3em;
+                              --chip-icon-size: 0.5em;
+                              --chip-border-width: 0;
+                              --chip-box-shadow: none;
+                              --chip-background: none;
+                              --chip-border: none;
+                              --chip-spacing: none;
+                              --chip-font-weight: bold;
+                            }
+                        chips:
+                          - type: template
+                            entity: sensor.sm_s916b_battery_level
+                            icon: >-
+                              {{states('sensor.sm_s916b_battery_levelb_battery_icon')}}
+                            icon_color: '{{states(''sensor.sm_s916b_battery_color'')}}'
+                            content: '{{states(''sensor.sm_s916b_battery_level'')}}%'
+                            tap_action:
+                              action: more-info
+                          - type: template
+                            entity: sensor.sm_s916b_battery_level
+                            icon: >-
+                              {% if
+                              is_state('binary_sensor.sm_s916b_is_charging','on')%}mdi:power-plug
+                              {% else %} mdi:power-plug-off {% endif
+                              %}                  
+                            icon_color: >-
+                              {% if
+                              is_state('binary_sensor.sm_s916b_is_charging','on')%}blue
+
+                              {% else %} grey
+
+                              {% endif %}
+                            content: ''
+                            tap_action:
+                              action: none
+                          - type: template
+                            entity: sensor.sm_s916b_network_type
+                            icon: >-
+                              {% if
+                              is_state('sensor.sm_s916b_network_type','wifi')%}
+                               mdi:wifi 
+                              {% elif
+                              is_state('sensor.sm_s916b_network_type','cellular')%}
+                               mdi:signal-4g
+                              {% else %} mdi:network-strength-off
+
+                              {% endif %}  
+                            icon_color: >-
+                              {% if
+                              is_state('sensor.sm_s916b_network_type','wifi')%}
+                               green
+                              {% elif
+                              is_state('sensor.sm_s916b_network_type','cellular')%}
+                               red
+                              {% else %} grey
+
+                              {% endif %}   
+                            content: ''
+                            hold_action:
+                              action: none
+                            double_tap_action:
+                              action: none
+                            tap_action:
+                              action: none
+                        alignment: center
+                      - type: custom:mushroom-chips-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --chip-font-size: 0.28em;
+                              --chip-icon-size: 0.4em;
+                              --chip-border-width: 0;
+                              --chip-box-shadow: none;
+                              --chip-background: none;
+                              --chip-border: none;
+                              --chip-font-weight: normal;
+                            }
+                        alignment: justify
+                        chips:
+                          - type: entity
+                            entity: device_tracker.ann_meulewaeter
+                            content_info: last-updated
+                            icon: mdi:clock
+                            icon_color: grey
+                            tap_action:
+                              action: more-info
+                  - type: custom:stack-in-card
+                    mode: vertical
+                    keep:
+                      margin: true
+                      outer-padding: false
+                    cards:
+                      - type: custom:mushroom-template-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --font-size: 0.32em;
+                              --icon-size: 0.52em;
+                              --border-width: 0;
+                              --box-shadow: none;
+                              --background: none;
+                              --border: none;
+                              --spacing: 0.5em;
+                              --font-weight: normal;
+                            }
+                        primary: ''
+                        secondary: 'WiFi: {{states(''sensor.sm_s916b_wifi_connection'')}}'
+                        icon: ''
+                        entity: sensor.sm_s916b_wifi_connection
+                        layout: vertical
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: more-info
+                      - type: custom:mushroom-chips-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --chip-font-size: 0.32em;
+                              --chip-icon-size: 0.52em;
+                              --chip-border-width: 0;
+                              --chip-box-shadow: none;
+                              --chip-background: none;
+                              --chip-border: none;
+                              --chip-spacing: none;
+                              --chip-font-weight: normal;
+                            }
+                        chips:
+                          - type: entity
+                            entity: sensor.sm_s916b_detected_activity
+                            icon_color: teal
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: more-info
+                          - type: entity
+                            entity: automation.a_on_state
+                            icon_color: red
+                            icon: mdi:cellphone-wireless
+                            use_entity_picture: false
+                            content_info: none
+                            tap_action:
+                              action: call-service
+                              service: script.sm_s916b_find_phone
+                              data: {}
+                              target: {}
+                            hold_action:
+                              action: none
+                            double_tap_action:
+                              action: none
+                        alignment: center
+                      - type: custom:mushroom-entity-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --font-size: 0.2em;
+                              --icon-size: 0.5em;
+                              --border-width: 0;
+                              --box-shadow: none;
+                              --background: none;
+                              --border: none;
+                              --spacing: none;
+                              --font-weight: normal;
+                            }
+                        entity: sensor.sm_s916b_geo_1
+                        icon_type: none
+                        primary_info: ''
+                        name: 'Possible Location:'
+                        layout: vertical
+                        fill_container: true
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: more-info
+                      - type: custom:mushroom-entity-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --font-size: 0.2em;
+                              --icon-size: 0.5em;
+                              --border-width: 0;
+                              --box-shadow: none;
+                              --background: none;
+                              --border: none;
+                              --spacing: none;
+                              --font-weight: normal;
+                            }
+                        entity: sensor.sm_s916b_geo_2
+                        icon_type: none
+                        primary_info: ''
+                        name: 'Possible Location:'
+                        layout: vertical
+                        fill_container: true
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: more-info
+                  - type: custom:stack-in-card
+                    mode: vertical
+                    keep:
+                      margin: true
+                      outer-padding: true
+                    cards:
+                      - type: custom:mushroom-template-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --font-size: 0.3em;
+                              --icon-size: 0.5em;
+                              --border-width: 0;
+                              --box-shadow: none;
+                              --background: none;
+                              --border: none;
+                              --spacing: 0.5em;
+                              --font-weight: normal;
+                            }
+                        primary: ''
+                        secondary: 'other info:'
+                        icon: ''
+                        entity: sensor.sm_s916b_wifi_connection
+                        layout: vertical
+                        double_tap_action:
+                          action: none
+                        hold_action:
+                          action: none
+                        tap_action:
+                          action: more-info
+                      - type: custom:mushroom-chips-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --chip-font-size: 0.32em;
+                              --chip-icon-size: 0.52em;
+                              --chip-border-width: 0;
+                              --chip-box-shadow: none;
+                              --chip-background: none;
+                              --chip-border: none;
+                              --chip-spacing: none;
+                              --chip-font-weight: normal;
+                            }
+                        chips:
+                          - type: entity
+                            entity: sensor.sm_s916b_public_ip_address
+                            icon_color: teal
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: more-info
+                        alignment: center
+                      - type: custom:mushroom-chips-card
+                        card_mod:
+                          style: |
+                            ha-card {
+                              --chip-font-size: 0.32em;
+                              --chip-icon-size: 0.52em;
+                              --chip-border-width: 0;
+                              --chip-box-shadow: none;
+                              --chip-background: none;
+                              --chip-border: none;
+                              --chip-spacing: none;
+                              --chip-font-weight: normal;
+                            }
+                        chips:
+                          - type: entity
+                            entity: sensor.sm_s916b_last_reboot
+                            icon_color: teal
+                            double_tap_action:
+                              action: none
+                            hold_action:
+                              action: none
+                            tap_action:
+                              action: more-info
+                        alignment: center
+            columns: 2
+          - square: false
+            type: grid
+            cards: []
+            columns: 1
+          - type: custom:gap-card
+            height: 5
+          - type: custom:bubble-card
+            card_type: separator
+            name: Verwarming
+            icon: mdi:heating-coil
+          - type: custom:gap-card
+            height: 5
+          - square: false
+            type: grid
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: custom:mushroom-climate-card
+                    name: Woonkamer
+                    icon: mdi:radiator
+                    fill_container: false
+                    show_temperature_control: true
+                    hvac_modes:
+                      - heat
+                      - 'off'
+                    tap_action:
+                      action: more-info
+                    entity: climate.verwarming_living
+                  - type: custom:mushroom-climate-card
+                    name: Bureau
+                    icon: mdi:radiator
+                    fill_container: false
+                    show_temperature_control: true
+                    hvac_modes:
+                      - heat
+                      - 'off'
+                    tap_action:
+                      action: more-info
+                    entity: climate.thermostaat_bureau
+                  - type: custom:mushroom-climate-card
+                    entity: climate.thermostaat_slaapkamer
+                    name: Slaapkamer
+                    icon: mdi:radiator
+                    fill_container: false
+                    show_temperature_control: true
+                    hvac_modes:
+                      - heat
+                      - 'off'
+                    tap_action:
+                      action: more-info
+              - type: vertical-stack
+                cards:
+                  - type: custom:mushroom-climate-card
+                    name: Gang
+                    icon: mdi:radiator
+                    fill_container: false
+                    show_temperature_control: true
+                    hvac_modes:
+                      - heat
+                      - 'off'
+                    tap_action:
+                      action: more-info
+                    entity: climate.thermostaat_gang
+                  - type: custom:mushroom-climate-card
+                    name: Badkamer
+                    icon: mdi:radiator
+                    fill_container: false
+                    show_temperature_control: true
+                    hvac_modes:
+                      - heat
+                      - 'off'
+                    tap_action:
+                      action: more-info
+                    entity: climate.thermostaat_badkamer
+                  - type: custom:mushroom-climate-card
+                    entity: climate.thermostaat_douche
+                    name: Douche
+                    icon: mdi:radiator
+                    fill_container: false
+                    show_temperature_control: true
+                    hvac_modes:
+                      - heat
+                      - 'off'
+                    tap_action:
+                      action: more-info
+            columns: 2
+        square: true
+      - type: custom:layout-card
+        layout_type: masonry
+        layout: {}
+        cards:
+          - show_name: false
+            show_icon: true
+            show_state: true
+            type: custom:button-card
+            aspect_ratio: 4/1
+            tap_action:
+              action: more-info
+            entity: alarm_control_panel.alarmo
+            name: Alarm
+            state:
+              - value: armed_away
+                color: red
+              - value: disarmed
+                color: lightgrey
+          - square: false
+            type: grid
+            cards:
+              - show_name: false
+                show_icon: true
+                type: custom:button-card
+                name: Salon
+                aspect_ratio: 1/1
+                tap_action:
+                  action: navigate
+                  navigation_path: /dashboard-tablet/woonkamer/
+                show_state: false
+                icon: mdi:sofa-outline
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                show_icon: true
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.woonkamer_sfeer
+                show_state: false
+                name: Sfeer
+                icon: mdi:lamps-outline
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                show_icon: true
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.sfeer_spots
+                name: Sfeer Spots
+                show_state: false
+                icon: hue:bulb-group-centura
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                show_icon: true
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.keuken_plafond
+                show_state: false
+                icon: mdi:countertop-outline
+                name: Keuken
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                name: Wasruimte
+                show_icon: true
+                icon: mdi:washing-machine
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.ldv_smart_tube_t8
+                show_state: false
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                show_icon: true
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.eetkamer
+                show_state: false
+                icon: mdi:table-chair
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                name: Gang
+                show_icon: true
+                icon: mdi:shoe-print
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.spots_gang
+                show_state: false
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                show_icon: true
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.ldvsmart_cylindrob
+                show_state: false
+                name: Toilet
+                icon: mdi:toilet
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                show_icon: true
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.slaapkamer_boven_bed
+                show_state: false
+                icon: mdi:bed-outline
+                name: Slaapkamer
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                show_icon: true
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.nachtlampen
+                show_state: false
+                name: Nachtlamp
+                icon: hue:wall-econic-lantern-top
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                name: Douche
+                show_icon: true
+                icon: mdi:shower-head
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.douche
+                show_state: false
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                name: Badkamer
+                show_icon: true
+                icon: mdi:bathtub-outline
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.badkamer
+                show_state: false
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                show_icon: true
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.dressing_all
+                show_state: false
+                icon: mdi:dresser-outline
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                show_icon: true
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.bureau
+                show_state: false
+                icon: mdi:desk
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+              - show_name: false
+                show_icon: true
+                type: custom:button-card
+                aspect_ratio: 1/1
+                tap_action:
+                  action: toggle
+                entity: light.terras
+                show_state: false
+                icon: hue:room-terrace
+                state:
+                  - value: 'on'
+                    color: lightgreen
+                  - value: 'off'
+                    color: lightgrey
+                hold_action:
+                  action: more-info
+            columns: 3
+      - type: custom:layout-card
+        layout_type: masonry
+        layout: {}
+        cards:
+          - type: custom:gap-card
+            height: 10
+          - type: custom:bubble-card
+            card_type: separator
+            name: Afvalophaling
+            icon: mdi:delete-empty
+          - type: custom:gap-card
+            height: 5
+          - type: entity
+            entity: sensor.recycleapp_afval_eerst_volgende
+            name: 'Volgende ophaling '
+            theme: ios-dark-mode
+            attribute: Upcoming_waste_types
+            icon: mdi:dump-truck
+          - square: false
+            type: grid
+            cards:
+              - type: entities
+                entities:
+                  - sensor.restafval
+                  - sensor.pmd
+                  - sensor.papier_karton
+                state_color: true
+            columns: 1
+          - type: custom:gap-card
+            height: 5
+          - type: custom:bubble-card
+            card_type: separator
+            name: Verbruik
+            icon: mdi:lightning-bolt-outline
+          - type: custom:gap-card
+            height: 5
+          - square: false
+            type: grid
+            cards:
+              - type: custom:button-card
+                entity: input_boolean.wasmachine_status
+                show_entity_picture: true
+                show_name: false
+                state:
+                  - value: 'off'
+                    entity_picture: /local/pictures/wasmachine-off.png
+                  - value: 'on'
+                    entity_picture: /local/pictures/wasmachine-on.png
+                styles:
+                  card:
+                    - padding: 15px 0px
+              - type: custom:button-card
+                show_entity_picture: true
+                show_name: false
+                state:
+                  - value: 'off'
+                    entity_picture: /local/pictures/vaatwasser-off.png
+                  - value: 'on'
+                    entity_picture: /local/pictures/vaatwasser-on.png
+                tap_action:
+                  action: toggle
+                entity: input_boolean.vaatwasser_status
+                styles:
+                  card:
+                    - padding: 15px 0px
+              - type: custom:button-card
+                show_entity_picture: true
+                show_name: false
+                show_state: false
+                state:
+                  - value: 'off'
+                    entity_picture: /local/pictures/diepvriezer-off.png
+                  - value: 'on'
+                    entity_picture: /local/pictures/diepvriezer-on.png
+                tap_action:
+                  action: toggle
+                entity: input_boolean.diepvries_status
+                styles:
+                  card:
+                    - padding: 15px 0px
+              - type: custom:button-card
+                show_entity_picture: true
+                show_name: false
+                show_state: false
+                state:
+                  - value: 'off'
+                    entity_picture: /local/pictures/microgolf-off.png
+                  - value: 'on'
+                    entity_picture: /local/pictures/microgolf-on.png
+                tap_action:
+                  action: toggle
+                entity: input_boolean.microgolf_status
+                styles:
+                  card:
+                    - padding: 15px 0px
+              - type: custom:button-card
+                entity: input_boolean.kerstboom_status
+                show_entity_picture: true
+                show_name: false
+                show_state: false
+                state:
+                  - value: 'off'
+                    entity_picture: /local/pictures/kerstboom-off.png
+                  - value: 'on'
+                    entity_picture: /local/pictures/kerstboom-on.png
+                styles:
+                  card:
+                    - padding: 15px 0px
+              - type: custom:button-card
+                show_entity_picture: true
+                show_name: false
+                show_state: false
+                state:
+                  - value: 'off'
+                    entity_picture: /local/pictures/guirlande-off.png
+                  - value: 'on'
+                    entity_picture: /local/pictures/guirlande-on.png
+                tap_action:
+                  action: toggle
+                entity: input_boolean.guirlande_status
+                styles:
+                  card:
+                    - padding: 15px 0px
+            columns: 3
+          - type: custom:gap-card
+            height: 5
+          - type: custom:bubble-card
+            card_type: separator
+            name: Radio
+            icon: mdi:radio
+          - type: custom:gap-card
+            height: 5
+          - type: custom:mini-media-player
+            entity: media_player.thuisgroep
+            name: Radio Q Music
+            volume_stateless: false
+            artwork: cover
+            source: full
+            sound_mode: full
+            info: short
+            icon: mdi:radio
+            shortcuts:
+              columns: 2
+              buttons:
+                - type: script
+                  name: Q Music
+                  id: script.radio_q_music
+            toggle_power: true
+            group: false
+  - title: Woonkamer
+    path: woonkamer
+    icon: mdi:sofa
+    theme: ios-dark-mode
+    subview: true
+    badges: []
+    cards:
+      - square: false
+        type: grid
+        cards:
+          - type: custom:vacuum-card
+            entity: vacuum.fluffy
+          - type: custom:better-thermostat-ui-card
+            entity: climate.verwarming_living
+            name: Verwarming Woonkamer
+            eco_temperature: 16
+            set_current_as_main: false
+        columns: 1
+      - square: false
+        type: grid
+        cards:
+          - square: false
+            type: grid
+            cards:
+              - type: custom:button-card
+                name: Woonkamer Schuifraam
+                show_state: true
+                entity: binary_sensor.schuifraam_woonkamer_opening
+                state:
+                  - value: 'off'
+                    icon: mdi:door-sliding
+                    color: green
+                  - value: 'on'
+                    icon: mdi:door-sliding-open
+                    color: red
+              - show_name: true
+                show_icon: true
+                type: button
+                tap_action:
+                  action: toggle
+                entity: sensor.smart_plug_woonkamer_kerstboom_active_power
+                show_state: true
+                name: Kerstboom
+                icon: mdi:pine-tree-variant-outline
+            columns: 2
+        columns: 1
